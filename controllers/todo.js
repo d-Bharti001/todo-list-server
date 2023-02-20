@@ -1,7 +1,7 @@
 const Todo = require("../models/todo");
 
 const getAllTodos = (req, res) => {
-    Todo.find().sort({ updatedAt: -1 }).then(todos => {
+    Todo.find().then(todos => {
         res.status(200).json({ msg: "All todos found successfully.", result: todos });
     }).catch(err => {
         res.status(500).json({ msg: "Todos not found.", error: err.message });
