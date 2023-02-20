@@ -11,6 +11,7 @@ const getAllTodos = (req, res) => {
 const getTodo = (req, res) => {
     if (!req.params.id) {
         res.status(400).json({ msg: "Send id" });
+        return;
     }
     Todo.findById(req.params.id).then(todo => {
         if (!todo)
@@ -34,6 +35,7 @@ const createTodo = (req, res) => {
 const updateTodo = (req, res) => {
     if (!req.params.id) {
         res.status(400).json({ msg: "Send id" });
+        return;
     }
     const { description } = req.body;
     Todo.findById(req.params.id).then(todo => {
@@ -49,6 +51,7 @@ const updateTodo = (req, res) => {
 const deleteTodo = (req, res) => {
     if (!req.params.id) {
         res.status(400).json({ msg: "Send id" });
+        return;
     }
     Todo.findById(req.params.id).then(todo => {
         if (!todo) {
