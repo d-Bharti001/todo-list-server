@@ -16,8 +16,8 @@ const getTodo = (req, res) => {
     Todo.findById(req.params.id).then(todo => {
         if (!todo)
             throw new Error("Todo not present in the database.");
-    }).then(todo => {
-        res.status(200).json({ msg: "Todo found successfully.", result: todo });
+        else
+            res.status(200).json({ msg: "Todo found successfully.", result: todo });
     }).catch(err => {
         res.status(500).json({ msg: "Todo not found.", error: err.message });
     });
