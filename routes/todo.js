@@ -1,6 +1,8 @@
 const router = require("express").Router();
+const jwt = require("../middlewares/jwt");
 const todo = require("../controllers/todo");
 
+router.use(jwt.verifyJwt);
 router.get("/", todo.getAllTodos);
 router.get("/:id", todo.getTodo);
 router.post("/", todo.createTodo);

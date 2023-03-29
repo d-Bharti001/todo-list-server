@@ -1,7 +1,7 @@
 const Todo = require("../models/todo");
 
 const getAllTodos = (req, res) => {
-    Todo.find().then(todos => {
+    Todo.find({ user: req.user.id }).then(todos => {
         res.status(200).json({ msg: "All todos found successfully.", result: todos });
     }).catch(err => {
         res.status(500).json({ msg: "Todos not found.", error: err.message });
@@ -16,8 +16,10 @@ const getTodo = (req, res) => {
     Todo.findById(req.params.id).then(todo => {
         if (!todo)
             throw new Error("Todo not present in the database.");
-    }).then(todo => {
-        res.status(200).json({ msg: "Todo found successfully.", result: todo });
+        if (todo.user != req.user.id)
+            throw new Error("Not authorized to access todo.");
+        else
+            res.status(200).json({ msg: "Todo found successfully.", result: todo });
     }).catch(err => {
         res.status(500).json({ msg: "Todo not found.", error: err.message });
     });
@@ -25,7 +27,7 @@ const getTodo = (req, res) => {
 
 const createTodo = (req, res) => {
     const { description } = req.body;
-    Todo.create({ description, user: null }).then(todo => {
+    Todo.create({ description, user: req.user.id }).then(todo => {
         res.status(200).json({ msg: "Todo created successfully.", result: todo });
     }).catch(err => {
         res.status(500).json({ msg: "Failed to create todo.", error: err.message });

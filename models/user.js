@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
-const TodoSchema = mongoose.Schema({
-    description: {
+const UserSchema = mongoose.Schema({
+    email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    user: {
-        type: mongoose.SchemaTypes.ObjectId,
+    password: {
+        type: String,
         required: true
     },
     createdAt: {
@@ -19,10 +20,10 @@ const TodoSchema = mongoose.Schema({
     }
 });
 
-TodoSchema.pre("save", function () {
+UserSchema.pre("save", function () {
     this.updatedAt = Date.now();
 });
 
-const Todo = mongoose.model("todo", TodoSchema);
+const User = mongoose.model("user", UserSchema);
 
-module.exports = Todo;
+module.exports = User;
